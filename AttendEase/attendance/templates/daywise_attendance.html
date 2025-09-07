@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Attendance Dashboard | View{% endblock %}
+
+{% block content %}
+
+<!-- Full screen gradient + image background -->
+<div class="relative min-h-screen bg-gradient-to-br from-indigo-100 via-blue-100 to-purple-100 overflow-hidden flex items-center justify-center px-4 sm:px-6 lg:px-8">
+
+  <!-- Background image with soft overlay -->
+  <img src="{% static 'images/manav_rachna_logo.png' %}" width="130px" 
+       alt="Attendance Background"
+       class="absolute inset-0 w-full h-full object-cover opacity-10 blur-md z-0" />
+  <div class="absolute inset-0 bg-white/70 z-0"></div>
+
+  <!-- Main card -->
+  <div class="relative z-10 max-w-6xl w-full bg-white/80 backdrop-blur-xl shadow-xl rounded-3xl p-8 sm:p-10 md:p-14 space-y-10 border border-gray-300 transition-all duration-300">
+
+    <!-- Title -->
+    <header class="text-center">
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-black tracking-tight drop-shadow-md">📊 Attendance Dashboard</h1>
+      <p class="text-gray-600 mt-2 text-sm sm:text-base">Track student attendance by date</p>
+    </header>
+
+    <!-- Date filter form -->
+    <form method="GET" class="flex flex-col sm:flex-row justify-center items-center gap-6">
+      <label for="date" class="text-black font-semibold text-sm sm:text-base">
+        <span class="block mb-2">📅 Select Date</span>
+        <input type="date" id="date" name="date" required
+               class="rounded-xl border border-gray-300 px-5 py-3 text-black font-medium shadow-inner focus:ring-4 focus:ring-indigo-300 bg-white" />
+      </label>
+      <button type="submit"
+              class="px-6 py-3 bg-black hover:bg-gray-900 text-white rounded-xl font-bold shadow-md transition duration-300">
+        🔍 View Report
+      </button>
+    </form>
+
+    {% if selected_date %}
+    <!-- Report Date -->
+    <div class="text-center">
+      <h2 class="text-xl sm:text-2xl font-bold text-black">Showing Attendance for:</h2>
+      <p class="text-gray-700 text-lg">{{ selected_date }}</p>
+    </div>
+
+    <!-- Attendance table -->
+    <div class="overflow-x-auto mt-6 rounded-xl bg-white backdrop-blur-md shadow-lg border border-gray-300">
+      <table class="min-w-full table-auto text-sm sm:text-base text-left text-black rounded-xl overflow-hidden">
+        <thead class="bg-gray-200 text-black uppercase text-xs font-bold">
+          <tr>
+            <th class="px-6 py-4">👨‍🎓 Student Name</th>
+            <th class="px-6 py-4">🆔 Roll No</th>
+            <th class="px-6 py-4">📌 Status</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-300">
+          {% for student, status in student_status.items %}
+          <tr class="hover:bg-gray-100 transition ease-in-out duration-200">
+            <td class="px-6 py-4 font-semibold">{{ student.first_name }} {{ student.last_name }}</td>
+            <td class="px-6 py-4">{{ student.roll_no }}</td>
+            <td class="px-6 py-4">
+              {% if status == 'Present' %}
+              <span class="inline-block px-4 py-1 rounded-full bg-green-200 text-green-900 text-sm font-semibold shadow-sm">
+                ✅ Present
+              </span>
+              {% else %}
+              <span class="inline-block px-4 py-1 rounded-full bg-red-200 text-red-800 text-sm font-semibold shadow-sm">
+                ❌ Absent
+              </span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <!-- No data prompt -->
+    <div class="text-center pt-20">
+      <p class="text-gray-500 text-lg italic animate-pulse">Select a date to view attendance records</p>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+
+{% endblock %}

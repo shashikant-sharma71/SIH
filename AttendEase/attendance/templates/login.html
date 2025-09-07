@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login | Attendance Tracker{% endblock %}
+
+{% block content %}
+<style>
+    .card-rainbow-wrapper {
+        padding: 1px;
+        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        border-radius: 0.375rem;
+        animation: animate-border-wrapper 1s linear infinite;
+    }
+
+    .card-rainbow {
+        border-radius: 0.375rem;
+        overflow: hidden;
+    }
+
+    @keyframes animate-border-wrapper {
+        0% {
+            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        }
+        50% {
+            border-image-source: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        }
+        100% {
+            background: linear-gradient(90deg, violet, indigo, blue, green, yellow, orange, red);
+        }
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+
+        <!-- Logo -->
+        <div class="text-center mb-4">
+            <img src="{% static 'images/manav_rachna_logo.png' %}" alt="Manav Rachna Logo" class="img-fluid" style="max-height: 100px;">
+        </div>
+
+        <!-- Card with Rainbow Border -->
+        <div class="card-rainbow-wrapper">
+            <div class="card shadow card-rainbow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Login to Your Account</h4>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="POST" novalidate>
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" name="username" class="form-control" required id="username">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" required id="password">
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <p>Don't have an account? <a href="{% url 'register_student'%}">Register_student</a></p>
+                        <p>Don't have an account? <a href="{% url 'register_faculty'%}">Register_faculty</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

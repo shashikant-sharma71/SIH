@@ -1,0 +1,23 @@
+<h1>Performance of {{ performance_data.0.student.full_name }}</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Subject</th>
+            <th>Exam Type</th>
+            <th>Marks Obtained</th>
+            <th>Total Marks</th>
+            <th>Percentage</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in performance_data %}
+        <tr>
+            <td>{{ record.subject.name }}</td>
+            <td>{{ record.exam_type }}</td>
+            <td>{{ record.marks_obtained }}</td>
+            <td>{{ record.total_marks }}</td>
+            <td>{{ record.percentage }}%</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
